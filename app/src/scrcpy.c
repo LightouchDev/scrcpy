@@ -7,6 +7,8 @@
 #include <sys/time.h>
 #include <SDL2/SDL.h>
 
+#include "config.h"
+#include "audio.h"
 #include "command.h"
 #include "common.h"
 #include "compat.h"
@@ -36,6 +38,10 @@ static struct decoder decoder;
 static struct recorder recorder;
 static struct controller controller;
 static struct file_handler file_handler;
+
+#ifdef AUDIO_SUPPORT
+static struct audio_player audio_player;
+#endif
 
 static struct input_manager input_manager = {
     .controller = &controller,
@@ -294,6 +300,14 @@ scrcpy(const struct scrcpy_options *options) {
 
     bool ret = false;
 
+#ifdef AUDIO_SUPPORT
+    if (options->forward_audio) {
+        if (!audio_forwarding_start(&audio_player, options->serial)) {
+            goto end;
+        }
+    }
+#endif
+
     bool fps_counter_initialized = false;
     bool video_buffer_initialized = false;
     bool file_handler_initialized = false;
@@ -468,6 +482,11 @@ end:
         proc_show_touches = set_show_touches_enabled(options->serial, false);
         wait_show_touches(proc_show_touches);
     }
+#ifdef AUDIO_SUPPORT
+    if (options->forward_audio) {
+        audio_forwarding_stop(&audio_player);
+    }
+#endif
 
     server_destroy(&server);
 

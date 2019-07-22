@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <recorder.h>
+#include "config.h"
 
 struct scrcpy_options {
     const char *serial;
@@ -20,6 +21,9 @@ struct scrcpy_options {
     bool display;
     bool turn_screen_off;
     bool render_expired_frames;
+#ifdef AUDIO_SUPPORT
+    bool forward_audio;
+#endif
 };
 
 bool

@@ -22,6 +22,13 @@ src = [
     'src/video_buffer.c',
 ]
 
+if get_option('audio_support')
+    src += [
+        'src/audio.c',
+    ]
+endif
+
+
 if not get_option('crossbuild_windows')
 
     # native build
@@ -111,6 +118,9 @@ conf.set('DEFAULT_BIT_RATE', '8000000')  # 8Mbps
 
 # enable High DPI support
 conf.set('HIDPI_SUPPORT', get_option('hidpi_support'))
+
+# enable audio support (enable audio forwarding with --forward-audio)
+conf.set('AUDIO_SUPPORT', get_option('audio_support'))
 
 # disable console on Windows
 conf.set('WINDOWS_NOCONSOLE', get_option('windows_noconsole'))

@@ -290,15 +290,13 @@ scrcpy --render-expired-frames
 ```
 
 
-### Forward audio
+### Forward audio (experimental)
 
-Audio is not forwarded by _scrcpy_. Use [USBaudio] (Linux-only).
+Magisk required, install [this module](), and running:
 
-Also see [issue #14].
-
-[USBaudio]: https://github.com/rom1v/usbaudio
-[issue #14]: https://github.com/Genymobile/scrcpy/issues/14
-
+```bash
+scrcpy -a
+```
 
 ## Shortcuts
 
